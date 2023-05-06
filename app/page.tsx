@@ -4,12 +4,10 @@ import Incidents from '@/components/incidents/incidents';
 import Services from '@/components/services/services'
 import { Status } from '@/types/status'
 import Link from 'next/link';
+import { getStatus } from './api/status/route';
 
 async function getData() {
-  const response: Status = await fetch('http://localhost:3000/api/status', {
-    method: 'get',
-    next: { revalidate: 120 },
-  }).then((res) => res.json());
+  const response: Status = await getStatus().then((res) => res.json());
 
   if (response.status == "success") {
     return response;

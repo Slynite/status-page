@@ -2,7 +2,7 @@ import { isNotOperational, isServiceStateLabel } from "@/helper/stateHelper";
 import { Service, Status, Incident, Label } from "@/types/status";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function getStatus() {
 
     let services: Service[] = [];
     let incidents: Incident[] = [];
