@@ -21,7 +21,7 @@ export default async function Home() {
   const data = await getData();
 
   return (
-    <main className="flex min-h-screen flex-col items-center lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
+    <main className="flex min-h-screen flex-col items-center p-8 lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
       <Header />
       {data !== undefined && data.services.length !== 0 ? (
         <>
