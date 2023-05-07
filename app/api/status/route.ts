@@ -1,6 +1,8 @@
 import { isNotOperational, isServiceStateLabel } from "@/helper/stateHelper";
 import { Service, Status, Incident, Label } from "@/types/status";
 import { NextResponse } from "next/server";
+import { remark } from 'remark';
+import html from 'remark-html';
 
 export async function getStatus() {
 
@@ -43,11 +45,14 @@ export async function getStatus() {
             if (state === undefined) {
                 state = { name: "resolved", color: "00ff00" };
             }
+
+            const processedContent = await remark().use(html).process(description);
+            const descriptionHtml = processedContent.toString();
             
             incidents.push({
                 name: title,
                 state: state.name,
-                description: description,
+                description: descriptionHtml,
                 date: incident.created_at,
                 resolvedDate: incident.closed_at,
                 link: incident.html_url,

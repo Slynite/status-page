@@ -2,6 +2,17 @@ import { Incident as itype } from "@/types/status";
 import Link from "next/link";
 
 export default function Incident({ incident }: { incident: itype }) {
+
+    const dateOptions: Intl.DateTimeFormatOptions = { 
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric', 
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZone: 'Europe/Berlin', 
+        timeZoneName: 'short' 
+    };
+
     return (
     <Link href={incident.link} target="_blank">
         <div className='bg-zinc-800 rounded-2xl p-6 text-base mt-4 transition ease-in-out duration-200 hover:scale-105'>
@@ -26,11 +37,11 @@ export default function Incident({ incident }: { incident: itype }) {
             )}
         </div>
         <div className='text-sm text-zinc-400'>
-            <p className="mb-2">{incident.description}</p>
-            <div className='flex font-light'>
-                <p>Created: {incident.date}</p>
-                <svg aria-hidden="true" className="w-2 h-2 ml-1 mr-1 place-self-center" fill="currentColor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="45" cy="45" r="45" /></svg>
-                <p>Resolved: {incident.resolvedDate}</p>
+            <p className="mb-4" dangerouslySetInnerHTML={{ __html: incident.description }}/>
+            <div className='md:flex font-light'>
+                <p>Created: {new Date(incident.date).toLocaleString("en-US", dateOptions)}</p>
+                <svg aria-hidden="true" className="w-2 h-2 ml-1 mr-1 place-self-center invisible -m-1 md:visible" fill="currentColor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="45" cy="45" r="45" /></svg>
+                <p>Resolved: {new Date(incident.resolvedDate as string).toLocaleString("en-US", dateOptions)}</p>
             </div>
         </div>
         </div>
