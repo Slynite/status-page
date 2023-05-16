@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { remark } from 'remark';
 import html from 'remark-html';
 
-export async function getStatus() {
+export async function GET(request: Request) {
 
     let services: Service[] = [];
     let incidents: Incident[] = [];
@@ -13,11 +13,12 @@ export async function getStatus() {
     try{
         const servicesApiResponse: any = await fetch('https://api.github.com/repos/slynite/status-page/issues?state=all&labels=component', {
             method: 'get',
+            cache: 'no-cache',
         }).then((res) => res.json());
     
         const incidentsApiResponse: any = await fetch('https://api.github.com/repos/slynite/status-page/issues?state=all&labels=incident', {
             method: 'get',
-            next: { revalidate: 120 },
+            cache: 'no-cache',
         }).then((res) => res.json());
     
         for(const service of servicesApiResponse) {
@@ -25,15 +26,17 @@ export async function getStatus() {
             let labels: Label[] = service.labels;
             let state: Label = labels.find((label: Label) => (isServiceStateLabel({ name: label.name }))) as Label;
     
-            if (isNotOperational({ name: state.name })) {
-                serviceWithProblems++;
+            if (state != undefined) {
+                if (isNotOperational({ name: state.name })) {
+                    serviceWithProblems++;
+                }
+        
+                services.push({
+                    name: title,
+                    status: state.name,
+                    color: state.color
+                } as Service);
             }
-    
-            services.push({
-                name: title,
-                status: state.name,
-                color: state.color
-            } as Service);
         }
     
         for(const incident of incidentsApiResponse) {
@@ -59,11 +62,11 @@ export async function getStatus() {
                 color: state.color,
             } as Incident);
         }
-    } catch(e) {
+    } catch(e : any) {
         return NextResponse.json(
             {
                 status: "error",
-                message: e,
+                message: e.message,
                 servicesUp: 0,
                 servicesDown: 0,
                 services: [],
