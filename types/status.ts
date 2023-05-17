@@ -5,11 +5,13 @@ export interface Status {
     servicesDown: number;
     services: Service[];
     incidents: Incident[];
+    categories: Category[];
 }
 
 export interface Service {
     name: string;
     status: string;
+    category: string;
     color: string;
 }
 
@@ -25,5 +27,11 @@ export interface Incident {
 
 export interface Label {
     name: string,
+    description: string,
     color: string,
+}
+
+export interface Category {
+    name: string,
+    services?: Service[],
 }

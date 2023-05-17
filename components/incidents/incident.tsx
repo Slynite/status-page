@@ -19,7 +19,7 @@ export default function Incident({ incident }: { incident: itype }) {
         <div className=' mb-2'>
             <p className='font-semibold'>{incident.name}</p>
 
-            {incident.state === "resolved" ? (
+            {incident.state === "Resolved" ? (
                 <span className={`text-green-600 bg-green-900 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-1`}>
                     {incident.resolvedDate !== undefined ? "Resolved" : ""}
                 </span>
