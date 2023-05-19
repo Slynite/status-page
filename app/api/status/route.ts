@@ -1,13 +1,13 @@
 import { isNotOperational, isServiceStateLabel } from "@/helper/stateHelper";
-import { Service, Status, Incident, Label } from "@/types/status";
+import { Service, Status, Incident, Label, Category } from "@/types/status";
 import { NextResponse } from "next/server";
 import { remark } from 'remark';
 import html from 'remark-html';
 
 export async function GET(request: Request) {
-
     let services: Service[] = [];
     let incidents: Incident[] = [];
+    let categories: Category[] = [];
     let serviceWithProblems: number = 0;
 
     try{
@@ -25,6 +25,17 @@ export async function GET(request: Request) {
             let title: string = service.title;
             let labels: Label[] = service.labels;
             let state: Label = labels.find((label: Label) => (isServiceStateLabel({ name: label.name }))) as Label;
+            let category: Label = labels.find((label: Label) => (label.name.startsWith("category:"))) as Label;
+
+            if (category != undefined) {
+                let categoryIndex = categories.findIndex((cat: Category) => cat.name === category.description);
+                if (categoryIndex === -1) {
+                    categories.push({
+                        name: category.description,
+                        services: [],
+                    } as Category);
+                }
+            }
     
             if (state != undefined) {
                 if (isNotOperational({ name: state.name })) {
@@ -33,7 +44,8 @@ export async function GET(request: Request) {
         
                 services.push({
                     name: title,
-                    status: state.name,
+                    status: state.description,
+                    category: category.description,
                     color: state.color
                 } as Service);
             }
@@ -46,7 +58,7 @@ export async function GET(request: Request) {
             let state: Label = labels.find((label: Label) => isServiceStateLabel({ name: label.name })) as Label;
     
             if (state === undefined) {
-                state = { name: "resolved", color: "00ff00" };
+                state = { name: "resolved", description: "Resolved", color: "16A349" };
             }
 
             const processedContent = await remark().use(html).process(description);
@@ -54,7 +66,7 @@ export async function GET(request: Request) {
             
             incidents.push({
                 name: title,
-                state: state.name,
+                state: state.description,
                 description: descriptionHtml,
                 date: incident.created_at,
                 resolvedDate: incident.closed_at,
@@ -71,6 +83,7 @@ export async function GET(request: Request) {
                 servicesDown: 0,
                 services: [],
                 incidents: [],
+                categories: [],
             } as Status
         );
     }
@@ -82,6 +95,7 @@ export async function GET(request: Request) {
             servicesDown: serviceWithProblems,
             services: services,
             incidents: incidents,
+            categories: categories,
         } as Status );
 }
   

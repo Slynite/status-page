@@ -22,7 +22,6 @@ export default function Home() {
 
   if (!isLoading) {
     if(error || data == undefined) {
-
       if (error != undefined) {
         return (
           <main className="flex min-h-screen flex-col items-center p-8 lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
@@ -38,7 +37,7 @@ export default function Home() {
       return (
         <main className="flex min-h-screen flex-col items-center p-8 lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
           <Header />
-          <Services services={data.services} servicesDown={data.servicesDown} />
+          <Services services={data.services} categories={data.categories} servicesDown={data.servicesDown} />
           <Incidents incidents={data.incidents} />
           <Footer />
         </main>
