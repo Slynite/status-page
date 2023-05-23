@@ -30,7 +30,7 @@ export default function Incident({ incident }: { incident: itype }) {
             <div className='md:flex font-light'>
                 <p>Created: {new Date(incident.date).toLocaleString("en-US", dateOptions)}</p>
                 <svg aria-hidden="true" className="w-2 h-2 ml-1 mr-1 place-self-center invisible -m-1 md:visible" fill="currentColor" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="45" cy="45" r="45" /></svg>
-                <p>Resolved: {incident.resolvedDate !== null ? new Date(incident.resolvedDate as string).toLocaleString("en-US", dateOptions) : "-"}</p>
+                <p>Resolved: {incident.resolvedDate !== null ? new Date(incident.resolvedDate).toLocaleString("en-US", dateOptions) : "-"}</p>
             </div>
         </div>
         </div>
