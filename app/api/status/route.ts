@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { remark } from 'remark';
 import html from 'remark-html';
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
     let services: Service[] = [];
     let incidents: Incident[] = [];
@@ -11,17 +13,17 @@ export async function GET(request: Request) {
     let serviceWithProblems: number = 0;
 
     try{
-        const servicesApiResponse: any = await fetch('https://api.github.com/repos/slynite/status-page/issues?state=all&labels=component', {
+        const servicesApiResponse: any = fetch('https://api.github.com/repos/slynite/status-page/issues?state=all&labels=component', {
             method: 'get',
-            cache: 'no-cache',
         }).then((res) => res.json());
     
-        const incidentsApiResponse: any = await fetch('https://api.github.com/repos/slynite/status-page/issues?state=all&labels=incident', {
+        const incidentsApiResponse: any = fetch('https://api.github.com/repos/slynite/status-page/issues?state=all&labels=incident', {
             method: 'get',
-            cache: 'no-cache',
         }).then((res) => res.json());
+
+        const [servicesApiData, incidentsApiData] = await Promise.all([servicesApiResponse, incidentsApiResponse]);
     
-        for(const service of servicesApiResponse) {
+        for(const service of servicesApiData) {
             let title: string = service.title;
             let labels: Label[] = service.labels;
             let state: Label = labels.find((label: Label) => (isServiceStateLabel({ name: label.name }))) as Label;
@@ -51,7 +53,7 @@ export async function GET(request: Request) {
             }
         }
     
-        for(const incident of incidentsApiResponse) {
+        for(const incident of incidentsApiData) {
             let title: string = incident.title;
             let description: string = incident.body;
             let labels: Label[] = incident.labels;
@@ -98,4 +100,3 @@ export async function GET(request: Request) {
             categories: categories,
         } as Status );
 }
-  

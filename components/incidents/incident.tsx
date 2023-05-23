@@ -18,23 +18,12 @@ export default function Incident({ incident }: { incident: itype }) {
         <div className='bg-zinc-800 rounded-2xl p-6 text-base mt-4 transition ease-in-out duration-200 hover:scale-105'>
         <div className=' mb-2'>
             <p className='font-semibold'>{incident.name}</p>
-
-            {incident.state === "Resolved" ? (
-                <span className={`text-green-600 bg-green-900 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-1`}>
-                    {incident.resolvedDate !== undefined ? "Resolved" : ""}
-                </span>
-            ) : (
-                <>
-                    <span className={`text-green-600 bg-green-900 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-1`}>
-                        {incident.resolvedDate !== undefined ? "Resolved" : ""}
-                    </span>
-                    <span 
-                    className={`text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded`}
-                    style={{color: '#' + incident.color, backgroundColor: '#BF' + incident.color}} >
-                        {incident.state}
-                    </span>
-                </>
-            )}
+            {incident.resolvedDate !== null ? <span className={`text-green-600 bg-green-900 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-1`}>Resolved</span> : <></>}
+            <span 
+            className={`text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded`}
+            style={{color: '#' + incident.color, backgroundColor: '#BF' + incident.color}} >
+                {incident.state}
+            </span>
         </div>
         <div className='text-sm text-zinc-400'>
             <p className="mb-4" dangerouslySetInnerHTML={{ __html: incident.description }}/>
