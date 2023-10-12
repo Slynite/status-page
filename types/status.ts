@@ -1,3 +1,5 @@
+import { Incident } from "./incident";
+
 export interface Status {
     status: string;
     message?: string;
@@ -10,25 +12,14 @@ export interface Status {
 
 export interface Service {
     name: string;
-    status: string;
+    status: Label;
     category: string;
-    color: string;
 }
 
-export interface Incident {
-    name: string;
-    state: string;
-    description: string;
-    date: string;
-    resolvedDate: string | null;
-    link: string;
-    color: string;
-}
 
 export interface Label {
-    name: string,
+    name: "operational" | "major outage" | "partial outage" | "performence issues" | "maintenance" | "resolved",
     description: string,
-    color: string,
 }
 
 export interface Category {

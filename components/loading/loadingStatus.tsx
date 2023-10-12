@@ -1,9 +1,8 @@
-import Footer from "./footer/footer";
-import Header from "./header/header";
+import Header from "../header/header";
 
-export default function Loading() {
+export default function LoadingStatus() {
     return(
-        <main className="flex min-h-screen flex-col items-center p-8 lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
+        <>
             <Header />
             <div className='bg-zinc-800 w-full rounded-2xl p-6 text-base mt-10 mb-10 animate-pulse'>
                 <div className='bg-zinc-700 rounded-lg p-4 mb-6'>
@@ -24,7 +23,6 @@ export default function Loading() {
                     </div>
                 </div>
             </div>
-            <Footer />
-        </main>
+        </>
     )
 }

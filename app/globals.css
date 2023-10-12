@@ -1,3 +1,55 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.state-operational {
+    @apply text-green-600 bg-green-900;
+}
+
+.state-majorOutage {
+    @apply text-red-500 bg-red-900;
+}
+
+.state-partialOutage {
+    @apply text-amber-500 bg-amber-900;
+}
+
+.state-performenceIssues {
+    @apply text-orange-500 bg-orange-900;
+}
+
+.state-maintenance {
+    @apply text-yellow-300 bg-yellow-700;
+}
+
+.ping-operational {
+    @apply bg-green-600;
+}
+
+.ping-majorOutage {
+    @apply bg-red-500;
+}
+
+.ping-partialOutage {
+    @apply bg-amber-500;
+}
+
+.ping-performenceIssues {
+    @apply bg-orange-500;
+}
+
+.ping-maintenance {
+    @apply bg-yellow-300;
+}
+
+.created {
+    @apply text-red-300 bg-red-900;
+}
+
+.updated {
+    @apply text-gray-600 bg-gray-700;
+}
+
+.resolved {
+    @apply text-green-600 bg-green-900;
+}

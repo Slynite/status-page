@@ -1,5 +1,7 @@
+import { convertStringToHtml } from "@/helper/incidentHelper";
 import { isNotOperational, isServiceStateLabel } from "@/helper/stateHelper";
-import { Service, Status, Incident, Label, Category } from "@/types/status";
+import { Incident } from "@/types/incident";
+import { Service, Status, Label, Category } from "@/types/status";
 import { NextResponse } from "next/server";
 import { remark } from 'remark';
 import html from 'remark-html';
@@ -46,34 +48,28 @@ export async function GET(request: Request) {
         
                 services.push({
                     name: title,
-                    status: state.description,
+                    status: {name: state.name, description: state.description},
                     category: category.description,
-                    color: state.color
                 } as Service);
             }
         }
     
         for(const incident of incidentsApiData) {
-            let title: string = incident.title;
-            let description: string = incident.body;
             let labels: Label[] = incident.labels;
             let state: Label = labels.find((label: Label) => isServiceStateLabel({ name: label.name })) as Label;
     
             if (state === undefined) {
-                state = { name: "resolved", description: "Resolved", color: "16A349" };
+                state = { name: "resolved", description: "Resolved" };
             }
-
-            const processedContent = await remark().use(html).process(description);
-            const descriptionHtml = processedContent.toString();
             
             incidents.push({
-                name: title,
-                state: state.description,
-                description: descriptionHtml,
-                date: incident.created_at,
-                resolvedDate: incident.closed_at,
-                link: incident.html_url,
-                color: state.color,
+                html_url: incident.html_url,
+                title: incident.title,
+                state: state,
+                created_at: incident.created_at,
+                closed_at: incident.closed_at,
+                body: await convertStringToHtml(incident.body),
+                updates: undefined,
             } as Incident);
         }
     } catch(e : any) {

@@ -1,9 +1,8 @@
 "use client"
 
-import Footer from '@/components/footer/footer';
 import Header from '@/components/header/header';
 import Incidents from '@/components/incidents/incidents';
-import Loading from '@/components/loading';
+import LoadingStatus from '@/components/loading/loadingStatus';
 import Services from '@/components/services/services';
 import { Status } from '@/types/status';;
 import Link from 'next/link';
@@ -21,27 +20,25 @@ export default function Home() {
 
   if (data !== undefined && data.status === 'success') {
     return (
-      <main className="flex min-h-screen flex-col items-center p-8 lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
-          <Header />
-          <Services services={data.services} categories={data.categories} servicesDown={data.servicesDown} />
-          <Incidents incidents={data.incidents} />
-          <Footer />
-        </main>
+        <>
+		  	<Header />
+          	<Services services={data.services} categories={data.categories} servicesDown={data.servicesDown} />
+          	<Incidents incidents={data.incidents} />
+        </>
     )
   } else {
     if (isLoading) {
       return(
-        <Loading />
+        <LoadingStatus />
       )
     } else {
       return(
-        <main className="flex min-h-screen flex-col items-center p-8 lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
-          <Header />
+        <>
+		  <Header />
           <p className='mt-10 mb-10 text-xl'>There was an error fetching the data... Please contact <Link className={'underline'} href="mailto:support@slynite.com">support@slynite.com</Link> and try again later.</p>
           {error !== undefined ? <p className='mt-10 mb-10 text-xl'>Error: {error.message}</p> : <></>}
           {data?.message !== undefined ? <p className='mt-10 mb-10 text-xl'>Error: {data.message}</p> : <></>}
-          <Footer />
-        </main>
+        </>
       )
     }
   }

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import './globals.css'
 import { Inter } from 'next/font/google';
+import Footer from '@/components/footer/footer';
 
 const inter = Inter({ subsets: ['latin'], weight: "variable" });
 
@@ -29,7 +30,10 @@ export default function RootLayout({
       <body 
       suppressHydrationWarning={true} 
       className={`container mx-auto bg-black ${inter.className} text-white text-sm`}>
-        {children}
+		<main className="flex min-h-screen flex-col items-center p-8 lg:pt-24 lg:pb-24 lg:pl-64 lg:pr-64">
+			{children}
+          	<Footer />
+        </main>
       </body>
     </html>
   )
