@@ -48,15 +48,15 @@ export default function Incident({ params }: { params: { incident: string } }) {
                         </button>
                     </Link>
                 </div>
-                <h1 className="text-2xl md:text-4xl mb-2">{information.title}</h1>
-                <p>Created at {getFormattedDate(information.created_at)}</p>
-                <div className="flex items-center mb-2 mt-2">
+                {information.state != null && <IncidentState state={information.state} />}
+                <h1 className="text-2xl md:text-4xl mb-2 mt-2">{information.title}</h1>
+                <div className="mt-1 mb-1">
+                    <p className="mb-1">Created at {getFormattedDate(information.created_at)}</p>
                     {information.closed_at ? 
-                        <span className={`text-green-600 bg-green-900 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-1`}><CheckCircleIcon className="mr-2 w-4 h-4" /> Resolved {getFormattedDate(information.closed_at.toLocaleString())}</span> 
+                        <span className={`text-green-600 bg-green-900 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-1 mb-1 md:mb-0`}><CheckCircleIcon className="mr-2 w-4 h-4" /> Resolved {getFormattedDate(information.closed_at.toLocaleString())}</span> 
                         :
                         <span className={`text-blue-400 bg-blue-900 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded mr-1`}><InformationCircleIcon className="mr-2 w-4 h-4" /> We investigating the issue</span> 
                     }
-                    {information.state != null && <IncidentState state={information.state} />}
                 </div>
                 <div className="mt-6">
                     <h2 className="text-xl">Description</h2>

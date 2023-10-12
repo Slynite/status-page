@@ -1,7 +1,7 @@
 import { remark } from "remark";
 import html from 'remark-html';
 
-const dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'Europe/Berlin', timeZoneName: 'short'  };
+const dateFormat: Intl.DateTimeFormatOptions = { year: '2-digit', month: '2-digit', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'Europe/Berlin', timeZoneName: 'short'  };
 
 export function getFormattedDate(date: string): string {
     console.log(date);
