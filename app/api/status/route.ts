@@ -26,6 +26,9 @@ export async function GET(request: Request) {
         const [servicesApiData, incidentsApiData] = await Promise.all([servicesApiResponse, incidentsApiResponse]);
 
         if (servicesApiData.message || incidentsApiData.message) {
+            if (servicesApiData.message.startsWith("API rate limit exceeded") || incidentsApiData.message.startsWith("API rate limit exceeded")) {
+                throw new Error("Github API rate limit exceeded. Please try again later.");
+            }
             throw new Error(servicesApiData.message || incidentsApiData.message);
         }
     
