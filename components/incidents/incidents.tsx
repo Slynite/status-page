@@ -1,10 +1,10 @@
 'use client';
 
-import { Incident as itype } from "@/types/status";
+import { Incident as IncidentType } from "@/types/incident";
 import Incident from "./incident";
 import { useState } from "react";
 
-export default function Incidents({ incidents }: { incidents: itype[]}) {
+export default function Incidents({ incidents }: { incidents: IncidentType[]}) {
     const [showAll, setShowAll] = useState(false);
     const lastincidents = incidents.slice(0, 3);
 
@@ -15,13 +15,13 @@ export default function Incidents({ incidents }: { incidents: itype[]}) {
         {showAll ? (
             <>
             {incidents.map((incident) => (
-                <Incident key={incident.link} incident={incident} />
+                <Incident key={incident.html_url} incident={incident} />
             ))}
             </>
         ) : (
             <>
             {lastincidents.map((incident) => (
-                <Incident key={incident.link} incident={incident} />
+                <Incident key={incident.html_url} incident={incident} />
             ))}
             </>
         )}
