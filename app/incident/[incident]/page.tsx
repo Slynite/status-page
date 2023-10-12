@@ -10,6 +10,7 @@ import { getFormattedDate } from "@/helper/incidentHelper";
 import { ApiResponse } from "@/types/api";
 import { Incident as IncidentType } from "@/types/incident";
 import { LoadingIncident } from "@/components/loading/loadingIncident";
+import IncidentHeader from "@/components/header/incidentHeader";
 
 const fetcher = (url: string | URL) => fetch(url).then(r => r.json())
 
@@ -26,10 +27,12 @@ export default function Incident({ params }: { params: { incident: string } }) {
 
     if (error || data != undefined && data.status != 'success') {
         return (
-            <>
-                <h1>There was an error fetching the data... Please contact <Link className={'underline'} href="mailto:support@slynite.com">support@slynite.com</Link> and try again later.</h1>
-                <p>Error: {error?.message}</p>
-            </>
+            <div className="self-start">
+                <IncidentHeader />
+                <p className='mt-10 mb-10 text-xl'>There was an error fetching the data... Please contact <Link className={'underline'} href="mailto:support@slynite.com">support@slynite.com</Link> and try again later.</p>
+                {error !== undefined ? <details className='mt-10 mb-10 text-xl'>Error: {error.message}</details> : <></>}
+                {data?.message !== undefined ? <details className='mt-10 mb-10 text-xl'>Error: {data.message}</details> : <></>}
+            </div>
         )
     }
 
@@ -37,17 +40,7 @@ export default function Incident({ params }: { params: { incident: string } }) {
         const information: IncidentType = data.data as IncidentType;
         return (
             <div className="self-start">
-                <div className="mb-10">
-                    <div className="flex items-center mb-2">
-                        <Image src="/logo512.png" alt="Slynite status Logo" width={45} height={45} />
-                        <h1 className="text-xl ml-3">Slynite status</h1>
-                    </div>
-                    <Link href="/">
-                        <button className="bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-medium inline-flex items-center px-3 py-1.5 rounded">
-                            <ArrowLeftIcon className="mr-2 w-4 h-4" /> Go to overview
-                        </button>
-                    </Link>
-                </div>
+                <IncidentHeader />
                 {information.state != null && <IncidentState state={information.state} />}
                 <h1 className="text-2xl md:text-4xl mb-2 mt-2">{information.title}</h1>
                 <div className="mt-1 mb-1">

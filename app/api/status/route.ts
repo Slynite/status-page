@@ -24,6 +24,10 @@ export async function GET(request: Request) {
         }).then((res) => res.json());
 
         const [servicesApiData, incidentsApiData] = await Promise.all([servicesApiResponse, incidentsApiResponse]);
+
+        if (servicesApiData.message || incidentsApiData.message) {
+            throw new Error(servicesApiData.message || incidentsApiData.message);
+        }
     
         for(const service of servicesApiData) {
             let title: string = service.title;

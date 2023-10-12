@@ -18,6 +18,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
             method: 'get',
         }).then((res) => res.json());
 
+        if (incident.message || incidentComments.message) {
+            if (incident.message.startsWith("API rate limit exceeded") || incidentComments.message.startsWith("API rate limit exceeded")) {
+                throw new Error("Github API rate limit exceeded. Please try again later.");
+            }
+            throw new Error(incident.message || incidentComments.message);
+        }
+
         const incidentData: Incident = {
             html_url: incident.html_url,
             title: incident.title,

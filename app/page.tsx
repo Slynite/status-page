@@ -34,10 +34,10 @@ export default function Home() {
     } else {
       return(
         <>
-		  <Header />
+		      <Header />
           <p className='mt-10 mb-10 text-xl'>There was an error fetching the data... Please contact <Link className={'underline'} href="mailto:support@slynite.com">support@slynite.com</Link> and try again later.</p>
-          {error !== undefined ? <p className='mt-10 mb-10 text-xl'>Error: {error.message}</p> : <></>}
-          {data?.message !== undefined ? <p className='mt-10 mb-10 text-xl'>Error: {data.message}</p> : <></>}
+          {error !== undefined ? <details className='mt-10 mb-10 text-xl self-start'>Error: {error.message}</details> : <></>}
+          {data?.message !== undefined ? <details className='mt-10 mb-10 text-xl self-start'>Error: {data.message}</details> : <></>}
         </>
       )
     }
