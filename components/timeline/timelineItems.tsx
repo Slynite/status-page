@@ -30,7 +30,7 @@ export default function TimelineItems({type, timestamp, info, latest}: {type: 'c
             </span>
             <h3 className="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
             <time className="block text-sm font-normal leading-none text-gray-400 dark:text-gray-500">On {getFormattedDate(timestamp)}</time>
-            {info ? <p className="text-base font-normal text-gray-500 dark:text-gray-400">server online again.</p> : ""}
+            {info ? <p className="text-base font-normal text-gray-500 dark:text-gray-400">{info}</p> : ""}
         </li>
     )
 }
